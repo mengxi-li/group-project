@@ -5,10 +5,29 @@ import pandas_datareader as data
 from keras.models import load_model
 import streamlit as st
 from datetime import date
+import styles
 
 start = '2015-01-01'
 end = date.today().strftime("%Y-%m-%d")
-st.title('Stock Prediction')
+
+st.set_page_config(
+     page_title="COMP 377 | Group 6",
+    #  layout="wide",   
+ )
+st.title("Predictr - Stock Prediction App")
+
+
+
+hide_style = """
+        <style>
+        #MainMenu {visibility: hidden;}
+        footer {visibility: hidden;}
+        </style>
+        """
+
+st.markdown(hide_style, unsafe_allow_html=True)
+st.markdown(styles.footer,unsafe_allow_html=True)
+
 user_input = st.text_input('Enter Stock Ticker','AMZN')
 df = data.DataReader(user_input,'yahoo',start,end)
 
@@ -66,8 +85,8 @@ y_test = y_test*scale_factor
 
 st.subheader('Predictions vs Original')
 fig2 = plt.figure(figsize=(12,6))
-plt.plot(y_test,'b',Label='original price')
-plt.plot(y_predicted,'r',Label='predicted price')
+plt.plot(y_test,'b', label='original price')
+plt.plot(y_predicted,'r', label='predicted price')
 plt.xlabel('Time')
 plt.ylabel('Price')
 plt.legend()
